@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ScotVectorformApp.Models.Task>
+
+@{
+    ViewData["Title"] = "Index";
+    var activeTasks = ViewData["ActiveCount"];
+}
+
+<h2>'To Do' Task List - @activeTasks Active Tasks</h2>
+<br />
+
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+    <div class="btn-group mr-lg-5 btn-group-toggle" role="group" aria-label="First group">
+        <a asp-action="Index" asp-route-id="" class="btn btn-sm" style="background-color:darkorchid;color:white">All</a>
+        <a asp-action="Index" asp-route-id="Active" class="btn btn-sm" style="background-color:blueviolet;color:white">Active</a>
+        <a asp-action="Index" asp-route-id="Complete" class="btn btn-sm" style="background-color:darkslateblue;color:white">Complete</a>
+    </div>
+
+    <div class="btn-group mr-lg-2" role="group" aria-label="Second group">
+        <a asp-action="Create" class="btn btn-success btn-sm">Create New Task</a>
+    </div>
+
+    <div class="btn-group mr-lg-5" role="group" aria-label="Third group">
+        <a asp-action="DeleteCompleted" class="btn btn-warning btn-sm">Delete All Complete Tasks</a>
+    </div>
+</div>
+
+<table class="table" style="border-style:solid;border-width:thin;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var rowColor = "lavenderblush";
+            if (item.Status == "Complete")
+            {
+                rowColor = "lightgray";
+            }
+            <tr style="background-color:@rowColor">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.TaskId" class="btn btn-primary btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.TaskId" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
